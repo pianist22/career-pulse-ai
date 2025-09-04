@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.pyo
+*.pyd
+*.egg-info/
+.build/
+dist/
+.eggs/
+
+# Virtual envs
+career_pulseai
+.venv/
+venv/
+
+# Editors and notebooks
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+
+# Project data/artifacts (do not commit PII or large files)
+data/raw/
+data/interim/
+data/processed/
+artifacts/
+outputs/
+models/
+
+# Hugging Face caches (datasets and hub)
+.cache/
+huggingface/
+hf_cache/
+**/datasets-arrow-*/
+# If you explicitly set caches, still ignore them:
+# ~/.cache/huggingface/datasets and ~/.cache/huggingface/hub are default locations
+# Also covered by setting HF_HOME/HF_DATASETS_CACHE/HF_HUB_CACHE
