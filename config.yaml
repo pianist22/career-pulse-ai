@@ -1,0 +1,34 @@
+project:
+  seed: 42
+  experiment_name: "resume_classifier_baseline"
+
+data:
+  use_public_resumeatlas: true
+  local_data_dir: "data/raw"
+  processed_dir: "data/processed"
+  interim_dir: "data/interim"
+  export_format: "parquet" # "csv" or "parquet"
+
+ingestion:
+  prefer_pdf_text: true
+  use_ocr_for_scans: true
+  ocr_lang: "eng"
+
+preprocessing:
+  lower_case: true
+  remove_urls: true
+  remove_handles: true
+  remove_specials: true
+  expand_contractions: true
+  remove_stopwords_for_bow: false
+  redact_pii: true
+  strip_headers_footers: true
+
+classification:
+  truncate_words: 400 # focus on first ~300-500 words as per ResumeAtlas
+  label_space: "resumeatlas_43"
+
+splits:
+  train: 0.7
+  val: 0.1
+  test: 0.2
