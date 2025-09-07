@@ -10,7 +10,7 @@ dist/
 .eggs/
 
 # Virtual envs
-career_pulseai
+career_pulse_ai
 .venv/
 venv/
 
