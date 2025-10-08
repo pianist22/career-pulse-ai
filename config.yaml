@@ -24,6 +24,23 @@ preprocessing:
   redact_pii: true
   strip_headers_footers: true
 
+# NER Configuration
+ner:
+  enabled: true
+  model_name: "en_core_web_sm"
+  extract_skills: true
+  extract_experience: true
+  extract_education: true
+  extract_contact_info: true
+  extract_companies: true
+  extract_locations: true
+  extract_projects: true
+  extract_certifications: true
+  extract_languages: true
+  confidence_threshold: 0.3
+  save_entities: true
+  save_ner_features: true
+
 classification:
   truncate_words: 400 # focus on first ~300-500 words as per ResumeAtlas
   label_space: "resumeatlas_43"
