@@ -5,6 +5,7 @@ from src.config import load_config
 from src.utils.io_helpers import load_table, save_table
 from src.utils.text_clean import normalize_text
 from src.utils.pii import redact_pii
+from src.ner.entity_extraction import NERProcessor
 
 def clean_text(text: str, cfg: dict) -> str:
     t = text or ""
@@ -25,6 +26,29 @@ def truncate_words(text: str, n_words: int) -> str:
         return text
     parts = text.split()
     return " ".join(parts[:n_words])
+
+def extract_entities_from_text(text: str, cfg: dict) -> dict:
+    """
+    Extract entities from text using NER if enabled
+    
+    Args:
+        text: Text to extract entities from
+        cfg: Configuration dictionary
+        
+    Returns:
+        Dictionary containing extracted entities or empty dict if NER disabled
+    """
+    if not cfg.get("ner", {}).get("enabled", False):
+        return {}
+    
+    try:
+        model_name = cfg.get("ner", {}).get("model_name", "en_core_web_sm")
+        ner_processor = NERProcessor(model_name=model_name)
+        entities = ner_processor.extract_entities(text)
+        return ner_processor.entities_to_features(entities)
+    except Exception as e:
+        print(f"Warning: NER processing failed: {e}")
+        return {}
 
 def main():
     cfg = load_config()
@@ -53,6 +77,19 @@ def main():
 
     # Clean
     df_all["text_clean"] = df_all["text"].apply(lambda x: clean_text(x, cfg))
+
+    # Extract entities using NER (if enabled)
+    if cfg.get("ner", {}).get("enabled", False) and cfg.get("ner", {}).get("save_entity_features", False):
+        print("Extracting entities using NER...")
+        entity_features = df_all["text_clean"].apply(lambda x: extract_entities_from_text(x, cfg))
+        
+        # Convert entity features to DataFrame columns
+        entity_df = pd.DataFrame(entity_features.tolist())
+        if not entity_df.empty:
+            # Add entity columns to main dataframe
+            for col in entity_df.columns:
+                df_all[f"entity_{col}"] = entity_df[col]
+            print(f"Added {len(entity_df.columns)} entity feature columns")
 
     # Truncate for classification efficiency
     n_words = int(cfg["classification"]["truncate_words"])
