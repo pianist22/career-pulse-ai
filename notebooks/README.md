@@ -10,16 +10,6 @@
 
 ## 🎯 **Cell-by-Cell Flow Documentation**
 
-### **Cell 0: Introduction (Markdown)**
-```markdown
-# NER-Enhanced Resume Classification
-```
-**What it does:** Provides overview and feature description  
-**Expected output:** Formatted header with bullet points  
-**Purpose:** Sets context for the notebook
-
----
-
 ### **Cell 1: Import Libraries (Python)**
 ```python
 import os, numpy as np, pandas as pd, torch
@@ -40,17 +30,7 @@ warnings.filterwarnings('ignore')
 
 ---
 
-### **Cell 2: Load Data with NER Features (Markdown)**
-```markdown
-## Load Data with NER Features
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces data loading section
-
----
-
-### **Cell 3: Data Loading and Inspection (Python)**
+### **Cell 2: Data Loading and Inspection (Python)**
 ```python
 # Load processed data with NER features
 train = pd.read_parquet("../data/processed/classification_train.parquet")
@@ -82,17 +62,7 @@ entity_certifications_str: AWS Certified Solutions Architect | PMP | CISSP | Goo
 
 ---
 
-### **Cell 4: Enhanced Feature Engineering (Markdown)**
-```markdown
-## Enhanced Feature Engineering
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces feature engineering section
-
----
-
-### **Cell 5: Create Enhanced Features (Python)**
+### **Cell 3: Create Enhanced Features (Python)**
 ```python
 def create_enhanced_features(df, entity_columns):
     # Combines text + entity features
@@ -115,17 +85,7 @@ New columns: ['entity_text', 'combined_text', 'entity_skills_str_count', 'entity
 
 ---
 
-### **Cell 6: Traditional ML Approach (Markdown)**
-```markdown
-## Traditional ML Approach with Entity Features
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces traditional ML section
-
----
-
-### **Cell 7: Prepare ML Data (Python)**
+### **Cell 4: Prepare ML Data (Python)**
 ```python
 # Prepare data for traditional ML
 le = LabelEncoder()
@@ -148,7 +108,7 @@ Number of classes: 43
 
 ---
 
-### **Cell 8: Train Random Forest (Python)**
+### **Cell 5: Train Random Forest (Python)**
 ```python
 # Train Random Forest Classifier
 rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
@@ -179,7 +139,7 @@ aws: 0.0156
 
 ---
 
-### **Cell 9: Train Logistic Regression (Python)**
+### **Cell 6: Train Logistic Regression (Python)**
 ```python
 # Train Logistic Regression
 lr_classifier = LogisticRegression(random_state=42, max_iter=1000, n_jobs=-1)
@@ -201,17 +161,7 @@ Logistic Regression Test Accuracy: 0.9123
 
 ---
 
-### **Cell 10: Transformer Model (Markdown)**
-```markdown
-## Transformer Model with Entity Features
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces transformer section
-
----
-
-### **Cell 11: Prepare Transformer Data (Python)**
+### **Cell 7: Prepare Transformer Data (Python)**
 ```python
 # Use combined text for transformer model
 model_name = "distilbert/distilbert-base-uncased"
@@ -232,7 +182,7 @@ Dataset prepared for transformer training
 
 ---
 
-### **Cell 12: Train Transformer Model (Python)**
+### **Cell 8: Train Transformer Model (Python)**
 ```python
 # Model setup
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
@@ -256,7 +206,7 @@ Training completed!
 
 ---
 
-### **Cell 13: Evaluate Transformer (Python)**
+### **Cell 9: Evaluate Transformer (Python)**
 ```python
 # Evaluate on test set
 test_results = trainer.evaluate(ds_tok["test"])
@@ -278,17 +228,7 @@ eval_runtime: 45.67
 
 ---
 
-### **Cell 14: Model Comparison (Markdown)**
-```markdown
-## Model Comparison
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces comparison section
-
----
-
-### **Cell 15: Compare All Models (Python)**
+### **Cell 10: Compare All Models (Python)**
 ```python
 # Compare all models
 results = {
@@ -317,17 +257,7 @@ NER-Enhanced Transformer 0.9345         0.9289
 
 ---
 
-### **Cell 16: Entity Analysis (Markdown)**
-```markdown
-## Entity Analysis
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces entity analysis section
-
----
-
-### **Cell 17: Analyze Entity Features (Python)**
+### **Cell 11: Analyze Entity Features (Python)**
 ```python
 if entity_columns:
     # Analyze entity distribution
@@ -363,17 +293,7 @@ entity_technologies_str:
 
 ---
 
-### **Cell 18: Save Enhanced Model (Markdown)**
-```markdown
-## Save Enhanced Model
-```
-**What it does:** Section header  
-**Expected output:** Formatted markdown header  
-**Purpose:** Introduces model saving section
-
----
-
-### **Cell 19: Save Best Model (Python)**
+### **Cell 12: Save Best Model (Python)**
 ```python
 # Save the best model
 if best_model == 'NER-Enhanced Transformer':
