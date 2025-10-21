@@ -8,6 +8,8 @@ import pandas as pd
 import re
 from typing import Dict, List, Any, Optional
 from pathlib import Path
+from .skill_matcher import SkillMatcher
+from .education_parser import EducationParser
 
 
 class NERProcessor:

@@ -67,9 +67,10 @@ def main():
     local_raw = Path(cfg["data"]["interim_dir"]) / f"local_raw.{cfg['data']['export_format']}"
     if local_raw.exists():
         df_local = load_table(local_raw.as_posix())
-        df_local["label"] = None
-        df_local["source"] = "local"
-        frames.append(df_local[["text", "label", "source"]])
+        if not df_local.empty and "text" in df_local.columns:
+            df_local["label"] = None
+            df_local["source"] = "local"
+            frames.append(df_local[["text", "label", "source"]])
 
     assert frames, "No input tables found. Run ingestion first."
     df_all = pd.concat(frames, ignore_index=True)
@@ -81,15 +82,46 @@ def main():
     # Extract entities using NER (if enabled)
     if cfg.get("ner", {}).get("enabled", False) and cfg.get("ner", {}).get("save_entity_features", False):
         print("Extracting entities using NER...")
-        entity_features = df_all["text_clean"].apply(lambda x: extract_entities_from_text(x, cfg))
         
-        # Convert entity features to DataFrame columns
-        entity_df = pd.DataFrame(entity_features.tolist())
-        if not entity_df.empty:
-            # Add entity columns to main dataframe
-            for col in entity_df.columns:
-                df_all[f"entity_{col}"] = entity_df[col]
-            print(f"Added {len(entity_df.columns)} entity feature columns")
+        # Initialize NER processor once
+        try:
+            model_name = cfg.get("ner", {}).get("model_name", "en_core_web_sm")
+            ner_processor = NERProcessor(model_name=model_name)
+            print(f"NER processor initialized with {model_name}")
+        except Exception as e:
+            print(f"Failed to initialize NER processor: {e}")
+            ner_processor = None
+        
+        if ner_processor is not None:
+            # Process in smaller batches to avoid memory issues
+            batch_size = 100
+            entity_features_list = []
+            
+            for i in range(0, len(df_all), batch_size):
+                batch = df_all.iloc[i:i+batch_size]
+                print(f"Processing batch {i//batch_size + 1}/{(len(df_all)-1)//batch_size + 1}")
+                
+                batch_entities = []
+                for text in batch["text_clean"]:
+                    try:
+                        entities = ner_processor.extract_entities(text)
+                        features = ner_processor.entities_to_features(entities)
+                        batch_entities.append(features)
+                    except Exception as e:
+                        print(f"Error processing text: {e}")
+                        batch_entities.append({})
+                
+                entity_features_list.extend(batch_entities)
+            
+            # Convert entity features to DataFrame columns
+            entity_df = pd.DataFrame(entity_features_list)
+            if not entity_df.empty:
+                # Add entity columns to main dataframe
+                for col in entity_df.columns:
+                    df_all[f"entity_{col}"] = entity_df[col]
+                print(f"Added {len(entity_df.columns)} entity feature columns")
+        else:
+            print("Skipping NER processing due to initialization failure")
 
     # Truncate for classification efficiency
     n_words = int(cfg["classification"]["truncate_words"])

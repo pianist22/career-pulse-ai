@@ -27,7 +27,7 @@ preprocessing:
 # NER Configuration
 ner:
   enabled: true
-  model_name: "en_core_web_sm"  # spaCy model to use
+  model_name: "en_core_web_sm"
   extract_skills: true
   extract_education: true
   extract_experience: true
@@ -37,7 +37,7 @@ ner:
   extract_locations: true
   extract_dates: true
   extract_contact_info: true
-  save_entity_features: true  # Save extracted entities as additional columns
+  save_entity_features: true
 
 classification:
   truncate_words: 400 # focus on first ~300-500 words as per ResumeAtlas
