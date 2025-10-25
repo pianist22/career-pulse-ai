@@ -1,0 +1,35 @@
+Old Model (Frozen Base) — FAST Training Outputs
+
+25% Trained:
+{'loss': 3.748, 'grad_norm': 1.2599818706512451, 'learning_rate': 4.3705035971223026e-05, 'epoch': 0.34}
+
+40% Trained:
+{'loss': 3.7067, 'grad_norm': 1.3166255950927734, 'learning_rate': 3.471223021582734e-05, 'epoch': 0.68}
+
+55% Trained:
+{'loss': 3.68, 'grad_norm': 1.3540979623794556, 'learning_rate': 2.5719424460431656e-05, 'epoch': 1.02}
+
+70% Trained:
+{'loss': 3.6555, 'grad_norm': 1.4566657543182373, 'learning_rate': 1.672661870503597e-05, 'epoch': 1.37}
+
+85% Trained:
+{'loss': 3.6406, 'grad_norm': 1.6058018207550049, 'learning_rate': 7.733812949640289e-06, 'epoch': 1.71}
+
+Final Evaluation Metrics (After 100% Training):
+{'eval_loss': 3.625576972961426, 'eval_runtime': 207.7007, 'eval_samples_per_second': 6.447, 'eval_steps_per_second': 0.202, 'epoch': 1.71}
+{'train_runtime': 6072.8966, 'train_samples_per_second': 3.087, 'train_steps_per_second': 0.096, 'train_loss': 3.678214219649904, 'epoch': 2.0}
+
+Fine-Tuning (Full Model) Outputs
+
+~25% Fine-Tuning Epoch:
+{'loss': 2.9198, 'grad_norm': 4.123405456542969, 'learning_rate': 1.3174061433447101e-05, 'epoch': 0.34}
+
+~50% Fine-Tuning Epoch:
+{'loss': 2.5957, 'grad_norm': 4.0347336530685425, 'learning_rate': 9.76109215017065e-06, 'epoch': 0.51}
+
+~75% Fine-Tuning Epoch:
+{'loss': 2.2717, 'grad_norm': 3.946061849594116, 'learning_rate': 6.348122866894198e-06, 'epoch': 0.68}
+
+Final Evaluation Metrics (After 100% Fine-Tuning):
+{'eval_loss': 1.893112301826477, 'eval_runtime': 241.2868, 'eval_samples_per_second': 5.549, 'eval_steps_per_second': 0.174, 'epoch': 1.0}
+{'train_runtime': 8751.4842, 'train_samples_per_second': 1.071, 'train_steps_per_second': 0.033, 'train_loss': 2.414928917998747, 'epoch': 1.0}
